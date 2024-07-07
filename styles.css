@@ -40,7 +40,7 @@ body {
 #webcam {
   position: absolute;
   right: 0;
-  bottom: 15%;
+  bottom: 12%;
   width: 100px;
   height: 150px;
   object-fit: cover;
