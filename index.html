@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Human Bot - Speak With JOEL</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
-    <!-- Your CSS file -->
   </head>
   <body onload="zoom()">
-    <!-- <h1 align="center" style="color: white">HUMAN BOT</h1> -->
-    <!-- <h2 align="center" style="color: white">ROSEY</h2> -->
+    <video id="webcam" autoplay playsinline></video>
     <div class="videoele">
       <video id="myVideo" align="center">
         <source src="VIDEO.mp4" type="video/mp4" />
         Your browser does not support the video element.
       </video>
     </div>
-    <h1 id="response-text"></h1>
     <div id="chat-window">
       <form id="chat-form">
         <img src="cam.png" alt="" id="cam" />
@@ -24,21 +21,8 @@
           ><i class="fa-solid fa-microphone fa-2x" id="micc"></i
         ></a>
         <img src="cut.jpg" alt="" id="cutp" />
-        <!-- <input
-          type="text"
-          id="chat-input"
-          autocomplete="off"
-          placeholder="Type your message here"
-          required
-        /> -->
-
-        <!-- <button type="submit" id="btnn">
-          Send <i class="fa-solid fa-arrow-right"></i>
-        </button> -->
       </form>
     </div>
-
-    <!-- Scripts -->
     <script type="importmap">
       {
         "imports": {
@@ -57,6 +41,5 @@
         document.body.style.zoom = "100%";
       }
     </script>
-    <script></script>
   </body>
 </html>

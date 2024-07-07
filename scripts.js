@@ -1,16 +1,22 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 document.addEventListener('DOMContentLoaded', function() {
-  const mydata = `Born on Dec 17, 2004, I began my journey in Bitragunta...
-    // Your long text here
-    Won Prizes in Singing Competitions.`;
 
-  const messages = document.getElementById("chat-messages");
+  async function startWebcam() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      document.getElementById('webcam').srcObject = stream;
+    } catch (error) {
+      console.error('Error accessing webcam:', error);
+    }
+  }
+
+  startWebcam();
+
   const video = document.getElementById("myVideo");
-  
   const utterance = new SpeechSynthesisUtterance();
-  utterance.lang = 'en-US'; // Set language to US English
-  utterance.rate = 1.3; // Speaking rate
+  utterance.lang = 'en-US';
+  utterance.rate = 1.3;
 
   function submitted(inp) {
     const message = inp;
@@ -29,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
       playVideoContinuously();
     } catch (error) {
       console.error('Error generating content:', error);
-      // Display error to the user or handle it appropriately
     }
   }
 
@@ -40,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
     utterance.addEventListener('end', function() {
       video.pause();
       video.currentTime = 0;
-    });
       startListening();
+    });
   }
 
   function playVideoContinuously() {
@@ -49,14 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
     video.addEventListener('ended', function() {
       video.currentTime = 0;
       video.play();
-      
     });
 
     video.play();
-  }
-
-  function scrollToBottom() {
-    messages.scrollTop = messages.scrollHeight;
   }
 
   document.getElementById("listenn").onclick = function() {
@@ -68,26 +68,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("micc").style.borderRadius = "10px";
     document.getElementById("micc").style.backgroundColor = "red";
     console.log("Listening..........");
-    
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       console.error('Speech Recognition API is not supported in this browser.');
       return;
     }
-    
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US"; 
 
-    recognition.onresult = function (event) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+
+    recognition.onresult = function(event) {
       const transcript = event.results[0][0].transcript;
       submitted(transcript);
     };
 
-    recognition.onerror = function (event) {
+    recognition.onerror = function(event) {
       console.error("Speech recognition error detected: " + event.error);
     };
 
-    recognition.onend = function () {
+    recognition.onend = function() {
       console.log("Speech recognition ended.");
       document.getElementById("micc").style.backgroundColor = "white";
       document.getElementById("micc").style.padding = "0px";
