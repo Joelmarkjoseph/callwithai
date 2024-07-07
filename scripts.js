@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
     runModel(message);
   }
 
-  async function runModel(prompt = "") {
+  window.onload=runModel("Hii! Welcome me");
+
+   async function runModel(prompt ) {
     try {
       const API_KEY = "AIzaSyA2VqV1q-P4QQOcYcm1AdWPJka6CxViAaw";
       const genAI = new GoogleGenerativeAI(API_KEY);
@@ -38,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  function speak(inputText) {
+  function speak(inputText="") {
     utterance.text = inputText;
     speechSynthesis.speak(utterance);
 
