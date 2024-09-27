@@ -2,6 +2,11 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 document.addEventListener('DOMContentLoaded', function() {
 
+  // Get 'name' parameter from the URL and save it in a variable
+  const urlParams = new URLSearchParams(window.location.search);
+  const nameParam = urlParams.get('name') || "User"; // Default to "User" if no name is provided
+  console.log('Name from URL:', nameParam);
+
   async function startWebcam() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -23,14 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
     runModel(message);
   }
 
-  window.onload=runModel("Hii! Welcome me");
+  window.onload = runModel(`Hi ${nameParam}! Welcome to the app`);
 
-   async function runModel(prompt ) {
+  async function runModel(prompt) {
     try {
       const API_KEY = "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U";
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const result = await model.generateContent(prompt + " (answer with little short message but don't use any emojis and also remember that your name is ROSEY)");
+      const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is ROSEY and my name is "+ nameParam+")" );
       const response = result.response.text();
       console.log(response);
       speak(response);
@@ -97,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     recognition.start();
   }
-  document.getElementById("cutcbtn").onclick= function() {
+
+  document.getElementById("cutcbtn").onclick = function() {
     window.close();
   }
 });
