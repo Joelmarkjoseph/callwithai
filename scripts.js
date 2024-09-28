@@ -110,4 +110,5 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("cutcbtn").onclick = function() {
     window.close();
   }
+  
 });

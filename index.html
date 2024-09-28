@@ -5,30 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VIDEO CALL WITH AI</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
+
+      .videoele {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      video {
+        border: 2px solid #333;
+        border-radius: 10px;
+        width: 80%;
+        height: auto;
+      }
+
+      #chat-window {
+        width: 100%;
+        max-width: 80vw;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 10px;
+      }
+
+      #cam {
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+      }
+
+      #cutp {
+        width: 40px;
+        height: 40px;
+      }
+
+      #listenn {
+        cursor: pointer;
+        font-size: 18px;
+      }
+    </style>
   </head>
   <body onload="zoom()">
+    <!-- Video Streams -->
     <video id="webcam" autoplay playsinline></video>
     <div class="videoele">
-      <video id="myVideo" align="center" muted>
-        <source src="cindrella.mp4" type="video/mp4" muted />
+      <video id="myVideo" align="center" autoplay playsinline muted>
+        <source id="videoSource" src="cindrella.mp4" type="video/mp4" />
         Your browser does not support the video element.
       </video>
     </div>
+
+    <!-- Chat Window -->
     <div id="chat-window">
       <form id="chat-form">
-        <img src="cam.png" alt="" id="cam" />
+        <img src="cam.png" alt="Camera" id="cam" />
 
-        <a id="listenn">
-          click<br />
-          <i class="fa-solid fa-microphone fa-2x" id="micc"></i
-        ></a>
-        <button id="cutcbtn"><img src="cut.jpg" alt="" id="cutp" /></button>
+        <a id="listenn" onclick="toggleMute()">
+          <i class="fa-solid fa-microphone fa-2x" id="micc"></i>
+        </a>
+        <button id="cutcbtn" type="button" onclick="winclose()">
+          <img src="cut.jpg" alt="End Call" id="cutp" />
+        </button>
       </form>
-    </div>
-
-    <!-- Textarea to display spoken words -->
-    <div id="spoken-text-container">
-      <textarea id="spoken-text" readonly></textarea>
     </div>
 
     <script type="importmap">
@@ -44,10 +88,40 @@
       src="https://kit.fontawesome.com/aed515ecd9.js"
       crossorigin="anonymous"
     ></script>
+
     <script type="text/javascript">
       function zoom() {
         document.body.style.zoom = "100%";
       }
+
+      function toggleMute() {
+        const webcam = document.getElementById("webcam");
+        webcam.muted = !webcam.muted;
+      }
+
+      function updateVideoSource() {
+        const video = document.getElementById("myVideo");
+        const source = document.getElementById("videoSource");
+        const screenWidth = window.innerWidth;
+
+        // Define different video sources for different screen sizes
+        if (screenWidth <= 768) {
+          source.src = "cindrella.mp4"; // Mobile video source
+        } else if (screenWidth <= 1024) {
+          source.src = "Man.mp4"; // Tablet video source
+        } else {
+          source.src = "Man.mp4"; // Desktop video source (default)
+        }
+
+        // Load the new source into the video element
+        video.load();
+      }
+
+      // Initial video load
+      updateVideoSource();
+
+      // Update video source on window resize
+      window.addEventListener("resize", updateVideoSource);
     </script>
   </body>
 </html>
