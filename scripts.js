@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
   const nameParam = urlParams.get('name') || "User"; // Default to "User" if no name is provided
   console.log('Name from URL:', nameParam);
-
+  let spkr="";
   async function startWebcam() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -29,9 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 768) {
       videoSource.src = "cindrella.mp4"; // Replace with the mobile video file
+      spkr="cindrella";
     } else {
       // Desktop screen
       videoSource.src = "Man.mp4"; // Replace with the desktop video file
+      spkr="John";
     }
     video.load(); // Reload the video with the new source
   }
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const API_KEY = "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U";
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is and my name is " + nameParam + ")");
+      const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is "+spkr+" and my name is " + nameParam + ")");
       const response = result.response.text();
       console.log(response);
       speak(response);

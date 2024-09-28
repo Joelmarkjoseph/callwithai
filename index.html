@@ -21,7 +21,9 @@
           click<br />
           <i class="fa-solid fa-microphone fa-2x" id="micc"></i>
         </a>
-        <button id="cutcbtn"><img src="cut.jpg" alt="" id="cutp" /></button>
+        <button id="cutcbtn" onclick="cutcall()">
+          <img src="cut.jpg" alt="" id="cutp" />
+        </button>
       </form>
     </div>
 
@@ -45,6 +47,9 @@
       function toggleMute() {
         const webcam = document.getElementById("webcam");
         webcam.muted = !webcam.muted;
+      }
+      function cutcall() {
+        window.close();
       }
     </script>
   </body>
