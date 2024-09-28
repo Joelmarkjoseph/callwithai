@@ -28,14 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
   function setVideoSource() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 768) {
-      // Mobile screen
       videoSource.src = "cindrella.mp4"; // Replace with the mobile video file
     } else {
       // Desktop screen
       videoSource.src = "Man.mp4"; // Replace with the desktop video file
     }
     video.load(); // Reload the video with the new source
-    video.play(); // Play the video
   }
 
   setVideoSource();
@@ -56,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const response = result.response.text();
       console.log(response);
       speak(response);
-      playVideoContinuously();
     } catch (error) {
       console.error('Error generating content:', error);
     }
@@ -64,27 +61,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function speak(inputText = "") {
     utterance.text = inputText;
+
+    // When the speech starts, play the video
+    utterance.onstart = function() {
+      video.currentTime = 0;
+      video.play();
+    };
+
+    // When the speech ends, pause the video and reset
+    utterance.onend = function() {
+      video.pause();
+      video.currentTime = 0;
+      startListening();
+    };
+
     speechSynthesis.speak(utterance);
 
     // Append spoken text to the textarea
     const spokenTextArea = document.getElementById("spoken-text");
     spokenTextArea.value += inputText + "\n"; // Append new line for each response
-
-    utterance.addEventListener('end', function() {
-      video.pause();
-      video.currentTime = 0;
-      startListening();
-    });
-  }
-
-  function playVideoContinuously() {
-    video.currentTime = 0;
-    video.addEventListener('ended', function() {
-      video.currentTime = 0;
-      video.play();
-    });
-
-    video.play();
   }
 
   document.getElementById("listenn").onclick = function() {
@@ -127,5 +122,5 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("cutcbtn").onclick = function() {
     window.close();
   }
-  
+
 });
