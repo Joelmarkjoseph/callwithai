@@ -3,28 +3,159 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VIDEO CALL WITH AI</title>
+    <title>Video Call with AI</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        padding: 20px;
+      }
+
+      .video-wrapper {
+        position: relative;
+        width: 80%;
+        max-width: 1000px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .video-container {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      video {
+        border: 2px solid #333;
+        border-radius: 10px;
+        width: 48%;
+        height: auto;
+      }
+
+      .video-controls {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .video-controls i {
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 50%;
+      }
+
+      #chat-window {
+        width: 100%;
+        max-width: 500px;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      #chat-form {
+        display: flex;
+        align-items: center;
+      }
+
+      #cutcbtn,
+      #listenn {
+        background-color: #ff4d4d;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+        font-size: 18px;
+      }
+
+      #listenn {
+        background-color: #4caf50;
+      }
+
+      #listenn i {
+        margin-left: 5px;
+      }
+
+      #cam {
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+      }
+
+      #cutp {
+        width: 40px;
+        height: 40px;
+      }
+    </style>
   </head>
   <body onload="zoom()">
-    <video id="webcam" autoplay playsinline></video>
-    <div class="videoele">
-      <video id="myVideo" align="center">
-        <source src="VIDEO.mp4" type="video/mp4" />
-        Your browser does not support the video element.
-      </video>
-    </div>
-    <div id="chat-window">
-      <form id="chat-form">
-        <img src="cam.png" alt="" id="cam" />
+    <div class="container">
+      <!-- Video Wrapper -->
+      <div class="video-wrapper">
+        <!-- Video Controls (Icons) -->
+        <div class="video-controls">
+          <i
+            class="fa-solid fa-retweet"
+            onclick="swapVideos()"
+            title="Swap Videos"
+          ></i>
+          <i
+            class="fa-solid fa-expand"
+            onclick="toggleFullScreen()"
+            title="Fullscreen"
+          ></i>
+          <i
+            class="fa-solid fa-microphone-slash"
+            onclick="toggleMute()"
+            title="Mute/Unmute"
+          ></i>
+          <i
+            class="fa-solid fa-phone-slash"
+            onclick="winclose()"
+            title="End Call"
+          ></i>
+        </div>
 
-        <a id="listenn">
-          click<br />
-          <i class="fa-solid fa-microphone fa-2x" id="micc"></i
-        ></a>
-        <button id="cutcbtn"><img src="cut.jpg" alt="" id="cutp" /></button>
-      </form>
+        <!-- Video Streams -->
+        <div class="video-container">
+          <video id="webcam" autoplay playsinline></video>
+          <video id="myVideo" autoplay playsinline muted>
+            <source src="cindrella.mp4" type="video/mp4" />
+            Your browser does not support the video element.
+          </video>
+        </div>
+      </div>
+
+      <!-- Chat Window -->
+      <div id="chat-window">
+        <form id="chat-form">
+          <img src="cam.png" alt="Camera" id="cam" />
+          <a id="listenn">
+            Talk
+            <i class="fa-solid fa-microphone fa-2x" id="micc"></i>
+          </a>
+          <button id="cutcbtn" type="button" onclick="winclose()">
+            <img src="cut.jpg" alt="End Call" id="cutp" />
+          </button>
+        </form>
+      </div>
     </div>
+
     <script type="importmap">
       {
         "imports": {
@@ -38,9 +169,45 @@
       src="https://kit.fontawesome.com/aed515ecd9.js"
       crossorigin="anonymous"
     ></script>
+
     <script type="text/javascript">
+      // Zoom function
       function zoom() {
         document.body.style.zoom = "100%";
+      }
+
+      // Close window function
+      function winclose() {
+        window.close();
+      }
+
+      // Swap Videos Function
+      function swapVideos() {
+        const webcam = document.getElementById("webcam");
+        const myVideo = document.getElementById("myVideo");
+        const tempSrc = webcam.srcObject;
+        webcam.srcObject = myVideo.srcObject;
+        myVideo.srcObject = tempSrc;
+      }
+
+      // Toggle Fullscreen Function
+      function toggleFullScreen() {
+        const videoWrapper = document.querySelector(".video-wrapper");
+        if (!document.fullscreenElement) {
+          videoWrapper.requestFullscreen().catch((err) => {
+            alert(
+              `Error attempting to enable full-screen mode: ${err.message}`
+            );
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      // Toggle Mute Function
+      function toggleMute() {
+        const webcam = document.getElementById("webcam");
+        webcam.muted = !webcam.muted;
       }
     </script>
   </body>
