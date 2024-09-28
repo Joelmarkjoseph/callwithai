@@ -45,9 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  function speak(inputText="") {
+  function speak(inputText = "") {
     utterance.text = inputText;
     speechSynthesis.speak(utterance);
+
+    // Append spoken text to the textarea
+    const spokenTextArea = document.getElementById("spoken-text");
+    spokenTextArea.value += inputText + "\n"; // Append new line for each response
 
     utterance.addEventListener('end', function() {
       video.pause();
