@@ -19,9 +19,26 @@ document.addEventListener('DOMContentLoaded', function() {
   startWebcam();
 
   const video = document.getElementById("myVideo");
+  const videoSource = document.getElementById("videoSource");
   const utterance = new SpeechSynthesisUtterance();
   utterance.lang = 'en-US';
   utterance.rate = 1.3;
+
+  // Detect device width and set the video source accordingly
+  function setVideoSource() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 768) {
+      // Mobile screen
+      videoSource.src = "cindrella.mp4"; // Replace with the mobile video file
+    } else {
+      // Desktop screen
+      videoSource.src = "Man.mp4"; // Replace with the desktop video file
+    }
+    video.load(); // Reload the video with the new source
+    video.play(); // Play the video
+  }
+
+  setVideoSource();
 
   function submitted(inp) {
     const message = inp;
@@ -35,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const API_KEY = "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U";
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is ROSEY and my name is "+ nameParam+")" );
+      const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is and my name is " + nameParam + ")");
       const response = result.response.text();
       console.log(response);
       speak(response);
