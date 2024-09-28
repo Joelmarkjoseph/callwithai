@@ -21,9 +21,9 @@
           click<br />
           <i class="fa-solid fa-microphone fa-2x" id="micc"></i>
         </a>
-        <button id="cutcbtn" onclick="cutcall()">
+        <a id="cutcbtn" href="Close.html">
           <img src="cut.jpg" alt="" id="cutp" />
-        </button>
+        </a>
       </form>
     </div>
 
@@ -49,7 +49,8 @@
         webcam.muted = !webcam.muted;
       }
       function cutcall() {
-        window.close();
+        event.preventDefault();
+        window.location.href = "Close.html";
       }
     </script>
   </body>

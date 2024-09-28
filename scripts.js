@@ -121,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
     recognition.start();
   }
 
-  document.getElementById("cutcbtn").onclick = function() {
-    window.close();
-  }
+  // document.getElementById("cutcbtn").onclick = function() {
+  //   window.close();
+  // }
 
 });
