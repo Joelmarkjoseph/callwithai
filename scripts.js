@@ -63,26 +63,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function speak(inputText = "") {
     utterance.text = inputText;
-
+  
     // When the speech starts, play the video
     utterance.onstart = function() {
       video.currentTime = 0;
-      video.play();
+      video.play();  // Start or continue playing the video
+      video.loop = true; // Ensure the video loops during the speech
     };
-
+  
     // When the speech ends, pause the video and reset
     utterance.onend = function() {
       video.pause();
       video.currentTime = 0;
       startListening();
     };
-
+  
     speechSynthesis.speak(utterance);
-
+  
     // Append spoken text to the textarea
     const spokenTextArea = document.getElementById("spoken-text");
     spokenTextArea.value += inputText + "\n"; // Append new line for each response
   }
+  
 
   document.getElementById("listenn").onclick = function() {
     startListening();
