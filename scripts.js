@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const videoSource = document.getElementById("videoSource");
   const utterance = new SpeechSynthesisUtterance();
   utterance.lang = 'en-US';
-  utterance.rate = 1.3;
+  utterance.rate = 1;
 
   // Detect device width and set the video source accordingly
   function setVideoSource() {
