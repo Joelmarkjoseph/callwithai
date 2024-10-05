@@ -25,6 +25,17 @@ document.addEventListener('DOMContentLoaded', function() {
   utterance.lang = 'en-US';
   utterance.rate = 1;
 
+
+  cutbtn.onclick = () => {
+    // Stop the current speech and reset the video
+    speechSynthesis.cancel();
+    video.pause();
+    video.currentTime = 0;
+    video.style.display = "none";  // Optionally hide the video when speech is stopped
+    window.location.href="Close.html";
+  };
+
+  
   // Detect device width and set the video source accordingly
   function setVideoSource() {
     const screenWidth = window.innerWidth;
@@ -46,15 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
     runModel(message);
   }
 
-  window.onload = runModel(`Hi ${nameParam}! Welcome to the app`);
-  cutbtn.onclick = () => {
-    // Stop the current speech and reset the video
-    speechSynthesis.cancel();
-    videoPlayer.pause();
-    videoPlayer.currentTime = 0;
-    videoPlayer.style.display = "none";  // Optionally hide the video when speech is stopped
-    window.location.href="Close.html";
-  };
+  window.onload = runModel("Hi ${nameParam}! Welcome to the app");
+  
   async function runModel(prompt) {
     try {
       const API_KEY = "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U";
