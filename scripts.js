@@ -46,7 +46,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   window.onload = runModel(`Hi ${nameParam}! Welcome to the app`);
-
+  cutbtn.onclick = () => {
+    // Stop the current speech and reset the video
+    speechSynthesis.cancel();
+    videoPlayer.pause();
+    videoPlayer.currentTime = 0;
+    videoPlayer.style.display = "none";  // Optionally hide the video when speech is stopped
+    window.location.href="Close.html";
+  };
   async function runModel(prompt) {
     try {
       const API_KEY = "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U";
