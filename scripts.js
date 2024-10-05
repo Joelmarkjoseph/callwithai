@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   async function runModel(prompt) {
     try {
-      const API_KEY = "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U";
+      const API_KEY = "AIzaSyASYnxs4H3aVPJvwZe82xVy4hgQU90bJQg";
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is "+spkr+" and my name is " + nameParam + ")");
