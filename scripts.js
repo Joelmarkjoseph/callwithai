@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const video = document.getElementById("myVideo");
   const videoSource = document.getElementById("videoSource");
+  const cutbtn = document.getElementById("cutcbtn");
   const utterance = new SpeechSynthesisUtterance();
   utterance.lang = 'en-US';
   utterance.rate = 1;
