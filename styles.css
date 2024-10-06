@@ -87,6 +87,9 @@ button {
   #myVideo {
     top: 50%;
   }
+  #support-buttons{
+    display: none;
+  }
 }
 
 .support-buttons {
