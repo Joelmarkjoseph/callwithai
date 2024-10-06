@@ -2,11 +2,28 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  // Get 'name' parameter from the URL and save it in a variable
+  // Default API keys for each support type
+  const apiKeys = {
+    emotional: "AIzaSyASYnxs4H3aVPJvwZe82xVy4hgQU90bJQg",
+    teaching: "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U",
+    healthcare: "AIzaSyA81Y-SeNjO4euqcDO9Nb49hBaNR1xiq5I",
+  };
+
+  let selectedApiKey = apiKeys.emotional;  // Default API key
+  let spkr = "";
+
+  // Function to set API key based on button click
+  window.setApiKey = function(type) {
+    selectedApiKey = apiKeys[type];
+    console.log("API Key set for " + type + ": " + selectedApiKey);
+    runModel("Hello! You are now connected for " + type + " support.");
+  };
+
+  // Get 'name' parameter from the URL
   const urlParams = new URLSearchParams(window.location.search);
-  const nameParam = urlParams.get('name') || "User"; // Default to "User" if no name is provided
+  const nameParam = urlParams.get('name') || "User"; 
   console.log('Name from URL:', nameParam);
-  let spkr="";
+
   async function startWebcam() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -25,29 +42,25 @@ document.addEventListener('DOMContentLoaded', function() {
   utterance.lang = 'en-US';
   utterance.rate = 1;
 
-
   cutbtn.onclick = () => {
-    // Stop the current speech and reset the video
     speechSynthesis.cancel();
     video.pause();
     video.currentTime = 0;
-    video.style.display = "none";  // Optionally hide the video when speech is stopped
+    video.style.display = "none";
     window.location.href="Close.html";
   };
 
-  
   // Detect device width and set the video source accordingly
   function setVideoSource() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 768) {
-      videoSource.src = "cindrella.mp4"; // Replace with the mobile video file
+      videoSource.src = "cindrella.mp4"; 
       spkr="cindrella";
     } else {
-      // Desktop screen
-      videoSource.src = "Man.mp4"; // Replace with the desktop video file
+      videoSource.src = "Man.mp4"; 
       spkr="John";
     }
-    video.load(); // Reload the video with the new source
+    video.load();
   }
 
   setVideoSource();
@@ -57,14 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
     runModel(message);
   }
 
-  window.onload = runModel("Hi ${nameParam}! Welcome to the app");
-  
+  window.onload = runModel("Hi " + nameParam + "! Welcome to the app");
+
   async function runModel(prompt) {
     try {
-      const API_KEY = "AIzaSyASYnxs4H3aVPJvwZe82xVy4hgQU90bJQg";
-      const genAI = new GoogleGenerativeAI(API_KEY);
+      const genAI = new GoogleGenerativeAI(selectedApiKey);
       const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is "+spkr+" and my name is " + nameParam + ")");
+      const result = await model.generateContent(prompt + " (answer with a short message, don't use emojis, and remember your name is " + spkr + " and my name is " + nameParam + ")");
       const response = result.response.text();
       console.log(response);
       speak(response);
@@ -75,39 +87,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function speak(inputText = "") {
     utterance.text = inputText;
-  
-    // When the speech starts, play the video
+
     utterance.onstart = function() {
       video.currentTime = 0;
-      video.play();  // Start or continue playing the video
-      video.loop = true; // Ensure the video loops during the speech
+      video.play();
+      video.loop = true;
     };
-  
-    // When the speech ends, pause the video and reset
+
     utterance.onend = function() {
       video.pause();
       video.currentTime = 0;
       startListening();
     };
-  
+
     speechSynthesis.speak(utterance);
-  
-    // Append spoken text to the textarea
+
     const spokenTextArea = document.getElementById("spoken-text");
-    spokenTextArea.value += inputText + "\n"; // Append new line for each response
+    spokenTextArea.value += inputText + "\n";
   }
-  
 
   document.getElementById("listenn").onclick = function() {
     startListening();
   };
 
   function startListening() {
-    document.getElementById("micc").style.padding = "10px";
-    document.getElementById("micc").style.borderRadius = "10px";
-    document.getElementById("micc").style.backgroundColor = "red";
-    console.log("Listening..........");
-
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       console.error('Speech Recognition API is not supported in this browser.');
@@ -127,16 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     recognition.onend = function() {
-      console.log("Speech recognition ended.");
       document.getElementById("micc").style.backgroundColor = "white";
-      document.getElementById("micc").style.padding = "0px";
     };
 
     recognition.start();
   }
-
-  // document.getElementById("cutcbtn").onclick = function() {
-  //   window.close();
-  // }
 
 });
