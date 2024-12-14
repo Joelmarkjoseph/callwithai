@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Default API keys for each support type
   const apiKeys = {
-    emotional: "AIzaSyASYnxs4H3aVPJvwZe82xVy4hgQU90bJQg",
-    teaching: "AIzaSyCCODmV0aY2i9YLzl4k3I5ya9mygEi_85U",
+    emotional: "AIzaSyCMh1RlMFSKLWUNGkKT1XdcRqNQgv8M9RE",
+    teaching: "AIzaSyCMh1RlMFSKLWUNGkKT1XdcRqNQgv8M9RE",
     healthcare: "AIzaSyA81Y-SeNjO4euqcDO9Nb49hBaNR1xiq5I",
   };
 
